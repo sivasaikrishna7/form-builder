@@ -5,6 +5,7 @@ import './App.css'
 import { motion } from 'framer-motion'
 import objData from './store'
 import { IoClose } from 'react-icons/io5'
+import handleSubmit from './Logic'
 
 function App() {
   const [state, setState] = useState(objData)
@@ -109,6 +110,9 @@ function App() {
       </center>
       <br />
       <div className="sidenav">
+        <center>
+          <h3>Basic Elements</h3>
+        </center>
         <button
           className="button button2"
           onClick={() => onChangeHandler('text')}
@@ -145,23 +149,26 @@ function App() {
                           >
                             {(provided, snapshot) => {
                               return (
-                                <div
-                                  className="container"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  {item.context}
-                                  <motion.button
-                                    whileHover={{ scale: 1.4 }}
-                                    whileTap={{ scale: 0.9 }}
-                                    style={{
-                                      color: 'red',
-                                    }}
-                                    onClick={() => removeField(item.id)}
+                                <div>
+                                  <div
+                                    className="container"
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
                                   >
-                                    <IoClose />
-                                  </motion.button>{' '}
+                                    {item.context}
+                                    <motion.button
+                                      whileHover={{ scale: 1.4 }}
+                                      whileTap={{ scale: 0.9 }}
+                                      style={{
+                                        color: 'red',
+                                      }}
+                                      onClick={() => removeField(item.id)}
+                                    >
+                                      <IoClose />
+                                    </motion.button>{' '}
+                                  </div>
+                                  <br />
                                 </div>
                               )
                             }}
@@ -187,6 +194,13 @@ function App() {
           }}
         >
           ADD STEP
+        </button>
+        <br />
+        <button
+          className="button223 button213"
+          onClick={(state) => handleSubmit(state)}
+        >
+          Submit
         </button>
       </center>
     </div>

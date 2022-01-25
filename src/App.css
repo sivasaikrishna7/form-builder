@@ -5,13 +5,14 @@
 .templatename{
   margin-left: 5%;
 }
-body{
+/* body{
   background: url(Bgimage.PNG) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
-}
+  
+} */
 .grid{
     bottom: 0;
     display: grid;
@@ -33,7 +34,7 @@ body{
 
     top: 0;
     left: 0;
-    background-color: #87cefa ;
+    background-color: #13b1e0 ;
     overflow-x: hidden;
     padding-top: 20px;
     opacity: 80%;
@@ -81,10 +82,30 @@ body{
     cursor: pointer;
     border-radius: 4px;
   }
+  .button223 {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    margin-left: 5%;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 4px;
+  }
   .button21 {
     background-color: white; 
     color: black; 
     border: 2px solid #008CBA;
+  }
+  .button213 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #ff0b0b;
   }
   
   .button21:hover {
@@ -94,12 +115,14 @@ body{
   
   .container{
     /* color: #87cefa ; */
-    background-color: #87cefa ;
+    background-color: #13b1e0  ;
     border: 2px solid rgb(0, 0, 0);
     border-radius: 7px;
     outline: #111;
+    height: 2%;
     width: 70%;
     margin-left: 12%;
-    padding-bottom: 30px;
+    padding-bottom: 15px;
     opacity: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   }
