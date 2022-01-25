@@ -1,89 +1,196 @@
-import React,{useState} from "react";
-import { DragDropContext,Droppable,Draggable} from 'react-beautiful-dnd';
-import {v4 as uuid} from 'uuid';
-import './App.css';
-import DragResizeContainer from 'react-drag-resize';
-
+import React, { useState, useEffect } from 'react'
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { v4 as uuid } from 'uuid'
+import './App.css'
+import { motion } from 'framer-motion'
+// import { Button } from 'antd'
+import objData from './store'
+import { IoClose } from 'react-icons/io5'
 
 function App() {
- 
-  const [itemsFromBackend,setitemsFromBackend] = useState([]);
-  const onChangehandler = () => {
-    const newArray = [...itemsFromBackend,{id:uuid(),context:<div><label>undefined</label><br/>
-      <input placeholder='Add your text here'/></div>}];
-    setitemsFromBackend(newArray);
-}
-  const columnsFromBackend = 
-  {
-    [uuid()]:{
-      name: 'Todo',
-      items: itemsFromBackend
-    },
-  };
-  // const [columns,setColumns] = useState(columnsFromBackend)
-  const columns = columnsFromBackend;
+  const [state, setState] = useState(objData)
+  const [columns, setColumns] = useState([])
+  const [type, setType] = useState('')
+  const [template_name, setTemplateName] = useState('')
+  const [label, setLabel] = useState('')
+  const [itemsFromBackend, setitemsFromBackend] = useState([])
+  const changeLabel = (e) => {
+    setLabel(e.target.value)
+  }
+
+  const getLabel = (param) => {
+    switch (param) {
+      case 'text':
+        return 'TEXT'
+      case 'int':
+        return 'INT'
+      default:
+        return ''
+    }
+  }
+
+  const getContext = (param) => {
+    // const inputType = getInputType(param)
+    const typeLabel = getLabel(param)
+    return (
+      <div>
+        <h3>{typeLabel} LABEL</h3>{' '}
+        <input
+          // value={label}
+          type="text"
+          onChange={changeLabel}
+        />
+      </div>
+    )
+  }
+
+  const onChangeHandler = (arg) => {
+    setType(arg)
+
+    const newArray = [
+      ...itemsFromBackend,
+      { id: uuid(), context: getContext(arg) },
+    ]
+    // console.log(newArray)
+    setitemsFromBackend(newArray)
+  }
+  const removeField = (id) => {
+    console.log(id)
+    const filteredPeople = itemsFromBackend.filter((item) => item.id !== id)
+    setitemsFromBackend(filteredPeople)
+    state.field.splice(
+      state.field.findIndex((a) => a.id === id),
+      1,
+    )
+  }
+  const changeTempName = (e) => {
+    setTemplateName(e.target.value)
+  }
+
+  const onsubmitHandler = () => {
+    setState({
+      template_name: template_name,
+      field: [
+        ...state.field,
+        {
+          id: uuid(),
+          label: label,
+          type: type,
+        },
+      ],
+    })
+  }
+
+  useEffect(() => {
+    // console.log('hi')
+    setColumns({
+      [uuid()]: {
+        name: 'Todo',
+        items: itemsFromBackend,
+      },
+    })
+  }, [itemsFromBackend, state])
+  useEffect(() => {
+    console.log(state)
+  }, [state])
+
   return (
-    <div>
-      <button onClick={()=>onChangehandler()}>TEXT</button>
-      <br/>
-      <br/>
-    <div >
-     <DragDropContext onDragEnd={result => console.log(result)}>
-       {Object.entries(columns).map(([id,column])=>{
-          return (
-            // <DragResizeContainer>
-            <Droppable  droppableId={id} key={id}>
-               {(provided,snapshot)=>{
+    <div className="App">
+      <center className="templatename">
+        <motion.h1
+          initial={{ y: -200 }}
+          animate={{ y: 0 }}
+          transition={{ type: 'spring', duration: 0.5 }}
+          whileHover={{ scale: 1.1 }}
+        >
+          Template Name
+        </motion.h1>
+        <input onChange={changeTempName} placeholder="Template Name" />
+      </center>
+      <br />
+      <div className="sidenav">
+        <button
+          className="button button2"
+          onClick={() => onChangeHandler('text')}
+        >
+          TEXT
+        </button>
+        <br />
+        <button
+          className="button button2"
+          onClick={() => onChangeHandler('int')}
+        >
+          INT
+        </button>
+      </div>
+      <div className="main">
+        <DragDropContext onDragEnd={(result) => console.log(result)}>
+          {Object.entries(columns).map(([id, column]) => {
+            return (
+              // <DragResizeContainer>
+              <Droppable droppableId={id} key={id}>
+                {(provided, snapshot) => {
                   return (
-                    <div className="grid"
-                    {...provided.droppableProps}
-                    ref={provided.innerRef}
+                    <form
+                      className="flex"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
                     >
-                     
-                      {
-                        column.items.map((item,index)=>{
-                          console.log(item,item.id)
-                          return (
-                            <Draggable key={item.id} draggableId={item.id} index={index}>
-                                {(provided,snapshot)=>{
-                                  return(
-                                    
-                                    <div ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
+                      {column.items.map((item, index) => {
+                        return (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided, snapshot) => {
+                              return (
+                                <div
+                                  className="container"
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  {item.context}
+                                  <motion.button
+                                    whileHover={{ scale: 1.4 }}
+                                    whileTap={{ scale: 0.9 }}
                                     style={{
-                                      userSelect:'none',
-                                      padding:16,
-                                      margin:'0 0 8px 0',
-                                      minHeight: '50px',
-                                      backgroundColor:snapshot.isDragging?'#263B4A':'#456C86',
-                                      color:'white',
-                                      ...provided.draggableProps.style
+                                      color: 'red',
                                     }}
-                                    >
-                                      { item.context }
-                                    </div>
-                                    
-                                  )
-                                }}
-                            </Draggable>
-                          )
-                        })
-                      }
-                      
+                                    onClick={() => removeField(item.id)}
+                                  >
+                                    <IoClose />
+                                  </motion.button>{' '}
+                                </div>
+                              )
+                            }}
+                          </Draggable>
+                        )
+                      })}
+
                       {provided.placeholder}
-                    </div>
+                    </form>
                   )
-               }}
-            </Droppable>
-            //</DragResizeContainer> 
-          )
-       })}
-     </DragDropContext>
+                }}
+              </Droppable>
+              //</DragResizeContainer>
+            )
+          })}
+        </DragDropContext>
+      </div>
+      <center>
+        <button
+          className="button22 button21"
+          onClick={() => {
+            onsubmitHandler()
+          }}
+        >
+          ADD STEP
+        </button>
+      </center>
     </div>
-    
-    </div>
-  );
+  )
 }
 
-export default App;
+export default App
