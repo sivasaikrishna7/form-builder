@@ -3,12 +3,12 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { v4 as uuid } from 'uuid'
 import './App.css'
 import { motion } from 'framer-motion'
-// import { Button } from 'antd'
 import objData from './store'
 import { IoClose } from 'react-icons/io5'
 
 function App() {
   const [state, setState] = useState(objData)
+  const [newId, setNewId] = useState(uuid())
   const [columns, setColumns] = useState([])
   const [type, setType] = useState('')
   const [template_name, setTemplateName] = useState('')
@@ -49,7 +49,7 @@ function App() {
 
     const newArray = [
       ...itemsFromBackend,
-      { id: uuid(), context: getContext(arg) },
+      { id: newId, context: getContext(arg) },
     ]
     // console.log(newArray)
     setitemsFromBackend(newArray)
@@ -73,14 +73,14 @@ function App() {
       field: [
         ...state.field,
         {
-          id: uuid(),
+          id: newId,
           label: label,
           type: type,
         },
       ],
     })
+    setNewId(uuid())
   }
-
   useEffect(() => {
     // console.log('hi')
     setColumns({
@@ -93,7 +93,7 @@ function App() {
   useEffect(() => {
     console.log(state)
   }, [state])
-
+  //hi
   return (
     <div className="App">
       <center className="templatename">
