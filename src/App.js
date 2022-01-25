@@ -43,6 +43,10 @@ function App() {
   }
 
   const onChangeHandler = (arg) => {
+    if (itemsFromBackend.length !== 0 && state.field.length === 0) {
+      alert('Add your step')
+      return
+    }
     setType(arg)
 
     const newArray = [
@@ -103,6 +107,10 @@ function App() {
   useEffect(() => {
     console.log(state)
   }, [state])
+  const onhandleSubmit = () => {
+    setTemplateName('')
+    handleSubmit(state)
+  }
   //hi
   return (
     <div className="App">
@@ -205,10 +213,7 @@ function App() {
           ADD STEP
         </button>
         <br />
-        <button
-          className="button223 button213"
-          onClick={(state) => handleSubmit(state)}
-        >
+        <button className="button223 button213" onClick={onhandleSubmit}>
           Submit
         </button>
       </center>
