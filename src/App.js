@@ -35,12 +35,9 @@ function App() {
     const typeLabel = getLabel(param)
     return (
       <div>
-        <h3>{typeLabel} LABEL</h3>{' '}
-        <input
-          // value={label}
-          type="text"
-          onChange={changeLabel}
-        />
+        <h3>{typeLabel} Label</h3>
+
+        <input type="text" onChange={changeLabel} />
       </div>
     )
   }
@@ -69,6 +66,17 @@ function App() {
   }
 
   const onsubmitHandler = () => {
+    if (template_name.length === 0) {
+      alert('Enter the Template Name!')
+    }
+    if (itemsFromBackend.length === 0) {
+      alert('Please Add a Field!')
+      return
+    }
+    if (label.length === 0) {
+      alert('Enter the Label')
+      return
+    }
     setState({
       template_name: template_name,
       field: [
@@ -80,6 +88,7 @@ function App() {
         },
       ],
     })
+    setLabel('')
     setNewId(uuid())
   }
   useEffect(() => {
