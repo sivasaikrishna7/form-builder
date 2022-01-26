@@ -42,15 +42,19 @@ function App() {
     setitemsFromBackend([...itemsFromBackend, { id: newId, type: arg }])
   }
 
-  const removeField = (id) => {
+  const RemoveField = (id) => {
     const filteredPeople = itemsFromBackend.filter((item) => item.id !== id)
     setitemsFromBackend(filteredPeople)
+
     if (label.length > 0) {
       state.field.splice(
-        state.field.findIndex((a) => a.id === id),
+        state.field.findIndex(function (i) {
+          return i.id === id
+        }),
         1,
       )
     }
+    console.log(state)
   }
 
   const changeTempName = (e) => {
@@ -81,7 +85,7 @@ function App() {
         },
       ],
     })
-    setLabel('')
+    // setLabel('')
     setNewId(uuid())
   }
 
@@ -187,7 +191,9 @@ function App() {
                                           borderRadius: '50%',
                                           cursor: 'pointer',
                                         }}
-                                        onClick={() => removeField(item.id)}
+                                        onClick={() =>
+                                          RemoveField(item.id, state)
+                                        }
                                       >
                                         <MdDelete size={'1.5em'} />
                                       </motion.button>
