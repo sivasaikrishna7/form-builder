@@ -1,0 +1,10 @@
+.context{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* flex-direction: column; */
+    /* width: 80%; */
+}
+.contextLabel{
+    margin-right: 20px;
+}

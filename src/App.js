@@ -6,6 +6,7 @@ import { motion } from 'framer-motion'
 import objData from './store'
 import { IoClose } from 'react-icons/io5'
 import handleSubmit from './Logic'
+import GetContext from './components/GetContext'
 
 function App() {
   const [state, setState] = useState(objData)
@@ -17,43 +18,42 @@ function App() {
   const [itemsFromBackend, setitemsFromBackend] = useState([])
   const changeLabel = (e) => {
     setLabel(e.target.value)
+    console.log(e.target.value)
   }
 
   const getLabel = (param) => {
     switch (param) {
       case 'text':
-        return 'TEXT'
+        return 'Text'
       case 'int':
-        return 'INT'
+        return 'Int'
       default:
         return ''
     }
   }
 
-  const getContext = (param) => {
-    // const inputType = getInputType(param)
-    const typeLabel = getLabel(param)
-    return (
-      <div>
-        <h3>{typeLabel} Label</h3>
-
-        <input type="text" onChange={changeLabel} />
-      </div>
-    )
-  }
+  // const GetContext = (props) => {
+  //   console.log(props)
+  //   const { labelType } = props
+  //   const typeLabel = getLabel(labelType)
+  //   return (
+  //     <div>
+  //       <h3>{typeLabel} Label</h3>
+  //       <input type="text" onChange={changeLabel} />
+  //     </div>
+  //   )
+  // }
 
   const onChangeHandler = (arg) => {
+    // console.log(arg)
     if (itemsFromBackend.length !== 0 && state.field.length === 0) {
       alert('Add your step')
       return
     }
     setType(arg)
-
-    const newArray = [
-      ...itemsFromBackend,
-      { id: newId, context: getContext(arg) },
-    ]
-    // console.log(newArray)
+    console.log(type)
+    const newArray = [...itemsFromBackend, { id: newId, type: arg }]
+    console.log(newArray)
     setitemsFromBackend(newArray)
   }
   const removeField = (id) => {
@@ -96,7 +96,7 @@ function App() {
     setNewId(uuid())
   }
   useEffect(() => {
-    // console.log('hi')
+    console.log('hi')
     setColumns({
       [uuid()]: {
         name: 'Todo',
@@ -109,8 +109,12 @@ function App() {
   }, [state])
   const onhandleSubmit = () => {
     setTemplateName('')
+    setitemsFromBackend([])
+    // setColumns([])
+    setState(objData)
     handleSubmit(state)
   }
+  console.log(columns)
   //hi
   return (
     <div className="App">
@@ -123,7 +127,11 @@ function App() {
         >
           Template Name
         </motion.h1>
-        <input onChange={changeTempName} placeholder="Template Name" />
+        <input
+          onChange={changeTempName}
+          placeholder="Template Name"
+          value={template_name}
+        />
       </center>
       <br />
       <div className="sidenav">
@@ -158,6 +166,11 @@ function App() {
                       ref={provided.innerRef}
                     >
                       {column.items.map((item, index) => {
+                        const isItem = (item1) => {
+                          return item1.id === item.id
+                        }
+                        const element = state.field.find(isItem)
+                        // state.find(item.id,)
                         return (
                           <Draggable
                             key={item.id}
@@ -166,14 +179,19 @@ function App() {
                           >
                             {(provided, snapshot) => {
                               return (
-                                <div>
+                                <div className="trail">
                                   <div
                                     className="container"
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                     {...provided.dragHandleProps}
                                   >
-                                    {item.context}
+                                    <GetContext
+                                      labelType={item.type}
+                                      changeLabel={changeLabel}
+                                      getLabel={getLabel}
+                                      element={element}
+                                    />
                                     <motion.button
                                       whileHover={{ scale: 1.4 }}
                                       whileTap={{ scale: 0.9 }}
