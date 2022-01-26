@@ -45,8 +45,18 @@ function App() {
   const RemoveField = (id) => {
     const filteredPeople = itemsFromBackend.filter((item) => item.id !== id)
     setitemsFromBackend(filteredPeople)
+    if (label.length === 0 && itemsFromBackend.length === state.field.length) {
+      state.field.splice(
+        state.field.findIndex(function (i) {
+          return i.id === id
+        }),
+        1,
+      )
+      console.log(state)
+      return
+    }
 
-    if (label.length > 0) {
+    if (label.length > 0 && itemsFromBackend.length === state.field.length) {
       state.field.splice(
         state.field.findIndex(function (i) {
           return i.id === id
@@ -85,7 +95,7 @@ function App() {
         },
       ],
     })
-    // setLabel('')
+    setLabel('')
     setNewId(uuid())
   }
 
