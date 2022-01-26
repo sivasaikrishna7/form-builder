@@ -94,9 +94,9 @@ function App() {
     })
   }, [itemsFromBackend, state])
 
-  // useEffect(() => {
-  //   console.log(state)
-  // }, [state])
+  useEffect(() => {
+    console.log(state)
+  }, [state])
 
   const onhandleSubmit = (e) => {
     e.preventDefault()
