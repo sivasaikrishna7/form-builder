@@ -1,10 +1,15 @@
-.context{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* flex-direction: column; */
-    /* width: 80%; */
+.context {
+  display: flex;
+  align-items: center;
+  width: 80%;
 }
-.contextLabel{
-    margin-right: 20px;
+
+.contextLabel {
+  margin-right: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.contextLabel span {
+  font-weight: normal;
 }

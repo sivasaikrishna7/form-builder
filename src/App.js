@@ -1,85 +1,74 @@
-import React, { useState, useEffect } from 'react'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-import { v4 as uuid } from 'uuid'
-import './App.css'
-import { motion } from 'framer-motion'
-import objData from './store'
-import { IoClose } from 'react-icons/io5'
-import handleSubmit from './Logic'
-import GetContext from './components/GetContext'
+import React, { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { v4 as uuid } from "uuid";
+import "./App.css";
+import { motion } from "framer-motion";
+import objData from "./store";
+import { MdDelete } from "react-icons/md";
+import handleSubmit from "./Logic";
+import "./global.css";
+import GetContext from "./components/GetContext";
 
 function App() {
-  const [state, setState] = useState(objData)
-  const [newId, setNewId] = useState(uuid())
-  const [columns, setColumns] = useState([])
-  const [type, setType] = useState('')
-  const [template_name, setTemplateName] = useState('')
-  const [label, setLabel] = useState('')
-  const [itemsFromBackend, setitemsFromBackend] = useState([])
+  const [state, setState] = useState(objData);
+  const [newId, setNewId] = useState(uuid());
+  const [columns, setColumns] = useState([]);
+  const [type, setType] = useState("");
+  const [template_name, setTemplateName] = useState("");
+  const [label, setLabel] = useState("");
+  const [itemsFromBackend, setitemsFromBackend] = useState([]);
+
   const changeLabel = (e) => {
-    setLabel(e.target.value)
-    console.log(e.target.value)
-  }
+    setLabel(e.target.value);
+  };
 
   const getLabel = (param) => {
     switch (param) {
-      case 'text':
-        return 'Text'
-      case 'int':
-        return 'Int'
+      case "text":
+        return "Text";
+      case "int":
+        return "Int";
       default:
-        return ''
+        return "";
     }
-  }
-
-  // const GetContext = (props) => {
-  //   console.log(props)
-  //   const { labelType } = props
-  //   const typeLabel = getLabel(labelType)
-  //   return (
-  //     <div>
-  //       <h3>{typeLabel} Label</h3>
-  //       <input type="text" onChange={changeLabel} />
-  //     </div>
-  //   )
-  // }
+  };
 
   const onChangeHandler = (arg) => {
-    // console.log(arg)
     if (itemsFromBackend.length !== 0 && state.field.length === 0) {
-      alert('Add your step')
-      return
+      alert("Add your step");
+      return;
     }
-    setType(arg)
-    console.log(type)
-    const newArray = [...itemsFromBackend, { id: newId, type: arg }]
-    console.log(newArray)
-    setitemsFromBackend(newArray)
-  }
+    setType(arg);
+    setitemsFromBackend([...itemsFromBackend, { id: newId, type: arg }]);
+  };
+
   const removeField = (id) => {
-    console.log(id)
-    const filteredPeople = itemsFromBackend.filter((item) => item.id !== id)
-    setitemsFromBackend(filteredPeople)
-    state.field.splice(
-      state.field.findIndex((a) => a.id === id),
-      1,
-    )
-  }
+    const filteredPeople = itemsFromBackend.filter((item) => item.id !== id);
+    setitemsFromBackend(filteredPeople);
+    if (label.length > 0) {
+      state.field.splice(
+        state.field.findIndex((a) => a.id === id),
+        1
+      );
+    }
+  };
+
   const changeTempName = (e) => {
-    setTemplateName(e.target.value)
-  }
+    setTemplateName(e.target.value);
+  };
 
   const onsubmitHandler = () => {
     if (template_name.length === 0) {
-      alert('Enter the Template Name!')
+      alert("Enter the Template Name!");
+      return;
     }
     if (itemsFromBackend.length === 0) {
-      alert('Please Add a Field!')
-      return
+      alert("Please Add a Field!");
+      return;
     }
     if (label.length === 0) {
-      alert('Enter the Label')
-      return
+      alert("Enter the Label");
+      return;
     }
     setState({
       template_name: template_name,
@@ -91,152 +80,143 @@ function App() {
           type: type,
         },
       ],
-    })
-    setLabel('')
-    setNewId(uuid())
-  }
+    });
+    setLabel("");
+    setNewId(uuid());
+  };
+
   useEffect(() => {
-    console.log('hi')
     setColumns({
       [uuid()]: {
-        name: 'Todo',
+        name: "Todo",
         items: itemsFromBackend,
       },
-    })
-  }, [itemsFromBackend, state])
+    });
+  }, [itemsFromBackend, state]);
+
   useEffect(() => {
-    console.log(state)
-  }, [state])
+    console.log(state);
+  }, [state]);
+
   const onhandleSubmit = () => {
-    setTemplateName('')
-    setitemsFromBackend([])
-    // setColumns([])
-    setState(objData)
-    handleSubmit(state)
-  }
-  console.log(columns)
-  //hi
+    setTemplateName("");
+    setitemsFromBackend([]);
+    setState(objData);
+    handleSubmit(state);
+  };
+
   return (
-    <div className="App">
-      <center className="templatename">
-        <motion.h1
-          initial={{ y: -200 }}
-          animate={{ y: 0 }}
-          transition={{ type: 'spring', duration: 0.5 }}
-          whileHover={{ scale: 1.1 }}
-        >
-          Template Name
-        </motion.h1>
-        <input
-          onChange={changeTempName}
-          placeholder="Template Name"
-          value={template_name}
-        />
-      </center>
-      <br />
+    <>
       <div className="sidenav">
-        <center>
-          <h3>Basic Elements</h3>
-        </center>
-        <button
-          className="button button2"
-          onClick={() => onChangeHandler('text')}
-        >
+        <h3>Basic Elements</h3>
+        <button className="button" onClick={() => onChangeHandler("text")}>
           TEXT
         </button>
-        <br />
-        <button
-          className="button button2"
-          onClick={() => onChangeHandler('int')}
-        >
+        <button className="button" onClick={() => onChangeHandler("int")}>
           INT
         </button>
       </div>
-      <div className="main">
-        <DragDropContext onDragEnd={(result) => console.log(result)}>
-          {Object.entries(columns).map(([id, column]) => {
-            return (
-              // <DragResizeContainer>
-              <Droppable droppableId={id} key={id}>
-                {(provided, snapshot) => {
-                  return (
-                    <form
-                      className="flex"
-                      {...provided.droppableProps}
-                      ref={provided.innerRef}
-                    >
-                      {column.items.map((item, index) => {
-                        const isItem = (item1) => {
-                          return item1.id === item.id
-                        }
-                        const element = state.field.find(isItem)
-                        // state.find(item.id,)
-                        return (
-                          <Draggable
-                            key={item.id}
-                            draggableId={item.id}
-                            index={index}
-                          >
-                            {(provided, snapshot) => {
-                              return (
-                                <div className="trail">
-                                  <div
-                                    className="container"
-                                    ref={provided.innerRef}
-                                    {...provided.draggableProps}
-                                    {...provided.dragHandleProps}
-                                  >
-                                    <GetContext
-                                      labelType={item.type}
-                                      changeLabel={changeLabel}
-                                      getLabel={getLabel}
-                                      element={element}
-                                    />
-                                    <motion.button
-                                      whileHover={{ scale: 1.4 }}
-                                      whileTap={{ scale: 0.9 }}
-                                      style={{
-                                        color: 'red',
-                                      }}
-                                      onClick={() => removeField(item.id)}
+      <div className="App">
+        <div className="templateForm">
+          <motion.div
+            initial={{ y: -200 }}
+            animate={{ y: 0 }}
+            transition={{ type: "spring", duration: 0.5 }}
+            whileHover={{ scale: 1.1 }}
+            className="templateName"
+          >
+            Template Name
+          </motion.div>
+          <input
+            onChange={changeTempName}
+            placeholder="Enter Template Name"
+            value={template_name}
+            className="inputStyle"
+          />
+        </div>
+        <div className="main">
+          <DragDropContext onDragEnd={(result) => console.log(result)}>
+            {Object.entries(columns).map(([id, column]) => {
+              return (
+                <Droppable droppableId={id} key={id}>
+                  {(provided) => {
+                    return (
+                      <form
+                        className="flex"
+                        {...provided.droppableProps}
+                        ref={provided.innerRef}
+                      >
+                        {column.items.map((item, index) => {
+                          const isItem = (item1) => {
+                            return item1.id === item.id;
+                          };
+                          const element = state.field.find(isItem);
+                          return (
+                            <Draggable
+                              key={item.id}
+                              draggableId={item.id}
+                              index={index}
+                            >
+                              {(provided) => {
+                                return (
+                                  <div className="trail">
+                                    <div
+                                      className="container"
+                                      ref={provided.innerRef}
+                                      {...provided.draggableProps}
+                                      {...provided.dragHandleProps}
                                     >
-                                      <IoClose />
-                                    </motion.button>{' '}
+                                      <GetContext
+                                        labelType={item.type}
+                                        changeLabel={changeLabel}
+                                        getLabel={getLabel}
+                                        element={element}
+                                      />
+                                      <motion.button
+                                        whileHover={{ scale: 1.4 }}
+                                        whileTap={{ scale: 0.9 }}
+                                        style={{
+                                          color: "red",
+                                          display: "flex",
+                                          alignItems: "center",
+                                          padding: "5px",
+                                          border: "none",
+                                          borderRadius: "50%",
+                                          cursor: "pointer",
+                                        }}
+                                        onClick={() => removeField(item.id)}
+                                      >
+                                        <MdDelete size={"1.5em"} />
+                                      </motion.button>
+                                    </div>
+                                    <br />
                                   </div>
-                                  <br />
-                                </div>
-                              )
-                            }}
-                          </Draggable>
-                        )
-                      })}
+                                );
+                              }}
+                            </Draggable>
+                          );
+                        })}
 
-                      {provided.placeholder}
-                    </form>
-                  )
-                }}
-              </Droppable>
-              //</DragResizeContainer>
-            )
-          })}
-        </DragDropContext>
+                        {provided.placeholder}
+                      </form>
+                    );
+                  }}
+                </Droppable>
+              );
+            })}
+          </DragDropContext>
+        </div>
+        <div className="buttons">
+          <button className="addStepButton" onClick={onsubmitHandler}>
+            Add Step
+          </button>
+          <button className="submitButton" onClick={onhandleSubmit}>
+            Submit
+          </button>
+        </div>
       </div>
-      <center>
-        <button
-          className="button22 button21"
-          onClick={() => {
-            onsubmitHandler()
-          }}
-        >
-          ADD STEP
-        </button>
-        <br />
-        <button className="button223 button213" onClick={onhandleSubmit}>
-          Submit
-        </button>
-      </center>
-    </div>
-  )
+    </>
+  );
 }
 
-export default App
+export default App;

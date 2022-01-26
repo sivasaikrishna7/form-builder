@@ -1,0 +1,14 @@
+body {
+  background-color: #e7eaea;
+  font-family: "Roboto", sans-serif;
+}
+
+.inputStyle {
+  font-family: inherit;
+  width: 50%;
+  height: 30px;
+  border: 1px solid #272727;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 3px;
+}
