@@ -1,16 +1,16 @@
-import React from "react";
-import "../global.css";
-import "./GetContext.css";
+import React from 'react'
+import '../Pages/global.css'
+import './GetContext.css'
 
 const GetContext = (props) => {
-  const { labelType, changeLabel, getLabel, element } = props;
-  const typeLabel = getLabel(labelType);
+  const { labelType, changeLabel, getLabel, element } = props
+  const typeLabel = getLabel(labelType)
   if (element) {
     return (
       <div className="contextLabel">
         {element.label} <span>({element.type})</span>
       </div>
-    );
+    )
   }
   return (
     <div className="context">
@@ -22,7 +22,7 @@ const GetContext = (props) => {
         className="inputStyle"
       />
     </div>
-  );
-};
+  )
+}
 
-export default GetContext;
+export default GetContext
