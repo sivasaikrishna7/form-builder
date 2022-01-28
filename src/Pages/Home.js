@@ -19,7 +19,7 @@ const Home = (props) => {
   const [template_name, setTemplateName] = useState('')
   const [label, setLabel] = useState('')
   const [itemsFromBackend, setitemsFromBackend] = useState([])
-  const [characters, updateCharacters] = useState(columns)
+  const [characters, updateCharacters] = useState(itemsFromBackend)
   //   const [tab, setTab] = useState('formBuilder')
 
   const changeLabel = (e) => {
@@ -131,7 +131,7 @@ const Home = (props) => {
   async function handleSubmit() {
     console.log(state)
     console.log('works?')
-    let url = `http://localhost:8000/post`
+    let url = `http://localhost:8000/forms/post`
     let res = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(state),
@@ -270,7 +270,7 @@ const Home = (props) => {
               Add Step
             </button>
             <button className="submitButton" onClick={onhandleSubmit}>
-              Submit
+              Save
             </button>
           </div>
         </div>

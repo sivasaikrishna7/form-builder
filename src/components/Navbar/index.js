@@ -1,16 +1,21 @@
 import React from 'react'
 import { Nav, NavLink, Bars, NavMenu } from './NavbarElements'
+import './Navitems.css'
 
 const Navbar = (props) => {
-  const { tab, setTab } = props
+  const { setTab } = props
   return (
     <>
       <Nav>
+        <h1 className="title">Form Builder.</h1>
         <Bars />
 
         <NavMenu>
+          <NavLink to="/" activeStyle>
+            Templates
+          </NavLink>
           <NavLink
-            to="/"
+            to="/FormBuilder"
             onClick={() => {
               setTab('formBuilder')
             }}
@@ -19,13 +24,13 @@ const Navbar = (props) => {
             Form Builder
           </NavLink>
           <NavLink
-            to="/"
+            to="/FormBuilder"
             onClick={() => {
               setTab('createdForm')
             }}
             activeStyle
           >
-            Created Form
+            Form Review
           </NavLink>
         </NavMenu>
       </Nav>

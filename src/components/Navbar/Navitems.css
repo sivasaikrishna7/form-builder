@@ -1,0 +1,10 @@
+.navitems{
+    margin-left: 700px;
+    flex-direction: row;
+}
+.title{
+    margin-top: 15px;
+    align-content: center;
+    font-weight: bold;
+    font-size:2rem;
+}

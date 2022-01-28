@@ -1,0 +1,30 @@
+.stemplate{
+    margin-top: 10vh;
+    justify-content: center;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    margin-right: 80px;
+    margin-left: 100px;
+    width: 5vw;
+    min-width: 300px;
+    outline: #111;
+    padding: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.formcontainer {
+    margin-top: 20vh;
+    color: #000000;
+    display: flex;
+    background-color: white;
+    border-radius: 7px;
+    outline: #111;
+    /* align-items: center; */
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 35vw;
+    min-width: 300px;
+    padding: 20px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
