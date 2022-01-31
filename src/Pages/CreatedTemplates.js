@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import './CreatedTemplates.css'
-import { Link } from 'react-router-dom'
+
 import { useNavigate } from 'react-router-dom'
 import SavedTemplate from './SavedTemplate'
-import { type } from '@testing-library/user-event/dist/type'
 
 const Templates = [
   {

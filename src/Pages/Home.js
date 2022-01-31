@@ -19,7 +19,7 @@ const Home = (props) => {
   const [template_name, setTemplateName] = useState('')
   const [label, setLabel] = useState('')
   const [itemsFromBackend, setitemsFromBackend] = useState([])
-  const [characters, updateCharacters] = useState(itemsFromBackend)
+  //   const [characters, updateCharacters] = useState(itemsFromBackend)
   //   const [tab, setTab] = useState('formBuilder')
 
   const changeLabel = (e) => {
@@ -116,11 +116,11 @@ const Home = (props) => {
     console.log(state)
   }, [state])
   const handleOndragEnd = (result) => {
-    const items = Array.from(characters)
+    const items = Array.from(itemsFromBackend) //characters
     const [reoderedItems] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reoderedItems)
 
-    updateCharacters(items)
+    setitemsFromBackend(items) //updateCharacters
   }
   useEffect(() => {
     if (tab === 'formBuilder' && itemsFromBackend.length === 0) {
